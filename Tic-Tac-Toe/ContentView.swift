@@ -43,14 +43,26 @@ struct ContentView: View {
         .alert(isPresented: $gameOver) {
             Alert(title: Text(winMessage))
         }
-        .onChange(of: moves) { oldValue, newValue in checkForWinner()
+        .onChange(of: moves) { oldValue, newValue in
+            checkForWinner()
         }
     }
     private func checkForWinner() {
-        if moves[0] != "" && moves[0] == moves[1] && moves[1] == moves[2] {
-            winMessage = "\(moves[0]) is the winner!"
+        checkLine(a: 0, b: 1, c: 2) // top row
+        checkLine(a: 3, b: 4, c: 5) // middle row
+        checkLine(a: 6, b: 7, c: 8) // bottom row
+        
+        checkLine(a: 0, b: 3, c: 6) // horizonal top row
+        checkLine(a: 1, b: 4, c: 7) // horizonal middle row
+        checkLine(a: 2, b: 5, c: 8) // horizonal bottom row
+        
+        checkLine(a: 0, b: 4, c: 8) // diaginal row 1
+        checkLine(a: 2, b: 4, c: 6) // diaginal row 2
+    }
+    private func checkLine(a: Int, b: Int, c: Int) {
+        if moves[a] != "" && moves[a] == moves[b] && moves[b] == moves[c] {
+            winMessage = "\(moves[a]) is the winner!"
             gameOver = true
-            
         }
     }
 }
